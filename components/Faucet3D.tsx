@@ -11,11 +11,26 @@ import { useRef, useState } from "react";
 import * as THREE from "three";
 
 /* =====================================================
+   TYPES
+===================================================== */
+
+type WaterStreamProps = {
+  active: boolean;
+};
+
+type FaucetModelProps = {
+  isOpen: boolean;
+  onToggle: () => void;
+};
+
+type FaucetMode = "click" | "hover" | "full";
+
+/* =====================================================
    WATER STREAM
 ===================================================== */
 
-function WaterStream({ active }) {
-  const waterRef = useRef(null);
+function WaterStream({ active }: WaterStreamProps) {
+  const waterRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     if (!waterRef.current || !active) return;
@@ -56,8 +71,11 @@ function WaterStream({ active }) {
    FAUCET MODEL
 ===================================================== */
 
-function FaucetModel({ isOpen, onToggle }) {
-  const handleRef = useRef(null);
+function FaucetModel({
+  isOpen,
+  onToggle,
+}: FaucetModelProps) {
+  const handleRef = useRef<THREE.Mesh>(null);
 
   useFrame(() => {
     if (!handleRef.current) return;
@@ -220,8 +238,10 @@ function FaucetModel({ isOpen, onToggle }) {
 ===================================================== */
 
 export default function Faucet3D() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [mode, setMode] = useState("click");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const [mode, setMode] =
+    useState<FaucetMode>("click");
 
   /* =====================================================
      CLICK MODE
@@ -397,7 +417,6 @@ export default function Faucet3D() {
     </div>
   );
 }
-
 
 // "use client";
 
